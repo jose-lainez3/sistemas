@@ -1,0 +1,45 @@
+<%- incluir('partials/encabezado', { titulo: 'Alumnos', seccion: 'alumnos' }) %>
+
+<form method="post" action="/alumnos" class="formulario">
+  <input type="hidden" name="accion" value="crear">
+  <h3>Registrar nuevo alumno</h3>
+  <div class="campo"><label>Nombres</label><input type="text" name="nombres" required></div>
+  <div class="campo"><label>Apellidos</label><input type="text" name="apellidos" required></div>
+  <div class="campo"><label>DNI / Identidad</label><input type="text" name="dni"></div>
+  <div class="campo"><label>Fecha de nacimiento</label><input type="date" name="fecha_nacimiento"></div>
+  <div class="campo"><label>Direccion</label><input type="text" name="direccion"></div>
+  <div class="campo"><label>Telefono</label><input type="text" name="telefono"></div>
+  <div class="campo"><label>Nombre del encargado/padre</label><input type="text" name="nombre_encargado"></div>
+  <div class="campo"><label>Telefono del encargado</label><input type="text" name="telefono_encargado"></div>
+  <button type="submit" class="btn">Registrar alumno</button>
+</form>
+
+<div class="barra-acciones">
+  <form method="get" action="/alumnos" style="display:flex;gap:8px;">
+    <input type="text" name="q" placeholder="Buscar por nombre o DNI" value="<%= busqueda %>">
+    <button type="submit" class="btn btn-secundario">Buscar</button>
+  </form>
+  <a href="/matricula" class="btn">Ir a matricular</a>
+</div>
+
+<table>
+  <tr><th>Nombres</th><th>Apellidos</th><th>DNI</th><th>Nac.</th><th>Encargado</th><th>Acciones</th></tr>
+  <% alumnos.forEach(function(a) { %>
+  <tr>
+    <td><%= a.nombres %></td>
+    <td><%= a.apellidos %></td>
+    <td><%= a.dni %></td>
+    <td><%= a.fecha_nacimiento %></td>
+    <td><%= a.nombre_encargado %></td>
+    <td>
+      <form method="post" action="/alumnos" style="display:inline" onsubmit="return confirm('¿Eliminar este alumno y todos sus registros?');">
+        <input type="hidden" name="accion" value="eliminar">
+        <input type="hidden" name="alumno_id" value="<%= a.id %>">
+        <button type="submit" class="btn btn-peligro btn-pequeno">Eliminar</button>
+      </form>
+    </td>
+  </tr>
+  <% }) %>
+</table>
+
+<%- incluir('partials/pie') %>

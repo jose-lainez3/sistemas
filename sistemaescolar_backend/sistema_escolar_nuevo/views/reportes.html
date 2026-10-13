@@ -1,0 +1,58 @@
+<%- incluir('partials/encabezado', { titulo: 'Reportes', seccion: 'reportes' }) %>
+
+<h3>1. Listado de alumnos matriculados</h3>
+<form method="get" action="/exportar" class="formulario">
+  <input type="hidden" name="tipo" value="alumnos">
+  <div class="campo">
+    <label>Curso</label>
+    <select name="curso_id" required>
+      <% cursos.forEach(function(c) { %>
+        <option value="<%= c.id %>"><%= c.nombre %> (<%= c.anio_lectivo %>)</option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="enlaces-exportar">
+    <button type="submit" name="formato" value="pdf" class="btn">Exportar PDF</button>
+    <button type="submit" name="formato" value="excel" class="btn btn-secundario">Exportar Excel</button>
+  </div>
+</form>
+
+<h3>2. Reporte de asistencia</h3>
+<form method="get" action="/exportar" class="formulario">
+  <input type="hidden" name="tipo" value="asistencia">
+  <div class="campo">
+    <label>Curso</label>
+    <select name="curso_id" required>
+      <% cursos.forEach(function(c) { %>
+        <option value="<%= c.id %>"><%= c.nombre %> (<%= c.anio_lectivo %>)</option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="campo"><label>Desde</label><input type="date" name="desde" value="<%= primerDiaMes %>"></div>
+  <div class="campo"><label>Hasta</label><input type="date" name="hasta" value="<%= fechaHoy %>"></div>
+  <div class="enlaces-exportar">
+    <button type="submit" name="formato" value="pdf" class="btn">Exportar PDF</button>
+    <button type="submit" name="formato" value="excel" class="btn btn-secundario">Exportar Excel</button>
+  </div>
+</form>
+
+<h3>3. Reporte de notas</h3>
+<form method="get" action="/exportar" class="formulario">
+  <input type="hidden" name="tipo" value="notas">
+  <div class="campo">
+    <label>Curso</label>
+    <select name="curso_id" required>
+      <% cursos.forEach(function(c) { %>
+        <option value="<%= c.id %>"><%= c.nombre %> (<%= c.anio_lectivo %>)</option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="campo"><label>Materia (opcional)</label><input type="text" name="materia" placeholder="Dejar vacio para todas"></div>
+  <div class="campo"><label>Periodo (opcional)</label><input type="text" name="periodo" placeholder="Dejar vacio para todos"></div>
+  <div class="enlaces-exportar">
+    <button type="submit" name="formato" value="pdf" class="btn">Exportar PDF</button>
+    <button type="submit" name="formato" value="excel" class="btn btn-secundario">Exportar Excel</button>
+  </div>
+</form>
+
+<%- incluir('partials/pie') %>

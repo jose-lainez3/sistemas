@@ -1,0 +1,12 @@
+<%- incluir('partials/encabezado', { titulo: 'Panel principal', seccion: 'dashboard' }) %>
+
+<div class="tarjetas">
+  <div class="tarjeta"><div class="num"><%= totalAlumnos %></div><div class="lbl">Alumnos registrados</div></div>
+  <div class="tarjeta"><div class="num"><%= totalMatriculados %></div><div class="lbl">Matriculas activas</div></div>
+  <div class="tarjeta"><div class="num"><%= totalCursos %></div><div class="lbl">Cursos</div></div>
+  <div class="tarjeta"><div class="num"><%= presentesHoy %></div><div class="lbl">Presentes hoy (<%= hoy %>)</div></div>
+</div>
+
+<p style="color:var(--texto-tenue)">Usa el menu superior para matricular alumnos, marcar asistencia, ingresar notas y exportar reportes.</p>
+
+<%- incluir('partials/pie') %>

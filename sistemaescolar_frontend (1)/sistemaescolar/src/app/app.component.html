@@ -1,0 +1,82 @@
+<ion-app>
+  <!-- Menú lateral -->
+  <ion-menu contentId="main-content" type="overlay">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <div class="menu-brand">
+          <ion-img src="assets/icon/logo.png" alt="Logo" class="menu-logo"></ion-img>
+          <ion-title class="menu-title">{{ nombreInstitucion }}</ion-title>
+        </div>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle auto-hide="false">
+          <ion-item routerLink="/dashboard" routerDirection="root">
+            <ion-icon slot="start" name="home-outline"></ion-icon>
+            <ion-label>Dashboard</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item routerLink="/alumnos" routerDirection="root">
+            <ion-icon slot="start" name="people-outline"></ion-icon>
+            <ion-label>Alumnos</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item routerLink="/matricula" routerDirection="root">
+            <ion-icon slot="start" name="document-text-outline"></ion-icon>
+            <ion-label>Matrícula</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item routerLink="/cursos" routerDirection="root">
+            <ion-icon slot="start" name="school-outline"></ion-icon>
+            <ion-label>Cursos</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item routerLink="/categorias" routerDirection="root">
+            <ion-icon slot="start" name="pricetags-outline"></ion-icon>
+            <ion-label>Categorías</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item routerLink="/inventario" routerDirection="root">
+            <ion-icon slot="start" name="cube-outline"></ion-icon>
+            <ion-label>Inventario</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item routerLink="/asistencia" routerDirection="root">
+            <ion-icon slot="start" name="checkmark-done-outline"></ion-icon>
+            <ion-label>Asistencia</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item routerLink="/notas" routerDirection="root">
+            <ion-icon slot="start" name="book-outline"></ion-icon>
+            <ion-label>Notas</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item routerLink="/reportes" routerDirection="root">
+            <ion-icon slot="start" name="bar-chart-outline"></ion-icon>
+            <ion-label>Reportes</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <!-- Contenido principal (donde se cargan las páginas) -->
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+</ion-app>

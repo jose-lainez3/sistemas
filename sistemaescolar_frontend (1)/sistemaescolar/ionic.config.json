@@ -1,0 +1,7 @@
+{
+  "name": "sistemaescolar",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

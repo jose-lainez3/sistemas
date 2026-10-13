@@ -1,0 +1,107 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
+    <ion-title>Reportes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- ALUMNOS -->
+  <ion-card>
+    <ion-card-header><ion-card-title>Alumnos</ion-card-title></ion-card-header>
+    <ion-card-content>
+      <ion-button expand="block" color="success" (click)="descargarAlumnos('excel')">
+        <ion-icon name="download-outline" slot="start"></ion-icon> Descargar Excel
+      </ion-button>
+      <ion-button expand="block" fill="outline" (click)="descargarAlumnos('pdf')">
+        <ion-icon name="document-text-outline" slot="start"></ion-icon> Descargar PDF
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- CURSOS -->
+  <ion-card>
+    <ion-card-header><ion-card-title>Cursos</ion-card-title></ion-card-header>
+    <ion-card-content>
+      <ion-button expand="block" color="success" (click)="descargarCursos('excel')">
+        <ion-icon name="download-outline" slot="start"></ion-icon> Descargar Excel
+      </ion-button>
+      <ion-button expand="block" fill="outline" (click)="descargarCursos('pdf')">
+        <ion-icon name="document-text-outline" slot="start"></ion-icon> Descargar PDF
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- INVENTARIO -->
+  <ion-card>
+    <ion-card-header><ion-card-title>Inventario</ion-card-title></ion-card-header>
+    <ion-card-content>
+      <ion-button expand="block" color="success" (click)="descargarInventario('excel')">
+        <ion-icon name="download-outline" slot="start"></ion-icon> Descargar Excel
+      </ion-button>
+      <ion-button expand="block" fill="outline" (click)="descargarInventario('pdf')">
+        <ion-icon name="document-text-outline" slot="start"></ion-icon> Descargar PDF
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- ASISTENCIA -->
+  <ion-card>
+    <ion-card-header><ion-card-title>Asistencia</ion-card-title></ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Curso</ion-label>
+        <ion-select [(ngModel)]="cursoAsistencia" placeholder="Selecciona un curso">
+          <ion-select-option *ngFor="let curso of cursos" [value]="curso.id">{{ curso.nombre }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Desde</ion-label>
+        <ion-input type="date" [(ngModel)]="desde"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Hasta</ion-label>
+        <ion-input type="date" [(ngModel)]="hasta"></ion-input>
+      </ion-item>
+      <ion-button expand="block" color="success" class="ion-margin-top" (click)="descargarAsistencia('excel')">
+        <ion-icon name="download-outline" slot="start"></ion-icon> Descargar Excel
+      </ion-button>
+      <ion-button expand="block" fill="outline" (click)="descargarAsistencia('pdf')">
+        <ion-icon name="document-text-outline" slot="start"></ion-icon> Descargar PDF
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- NOTAS -->
+  <ion-card>
+    <ion-card-header><ion-card-title>Notas</ion-card-title></ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Curso</ion-label>
+        <ion-select [(ngModel)]="cursoNotas" placeholder="Selecciona un curso">
+          <ion-select-option *ngFor="let curso of cursos" [value]="curso.id">{{ curso.nombre }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Materia</ion-label>
+        <ion-select [(ngModel)]="materiaNotas">
+          <ion-select-option *ngFor="let materia of materias" [value]="materia">{{ materia }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Periodo</ion-label>
+        <ion-select [(ngModel)]="periodoNotas">
+          <ion-select-option *ngFor="let periodo of periodos" [value]="periodo">{{ periodo }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-button expand="block" color="success" class="ion-margin-top" (click)="descargarNotas('excel')">
+        <ion-icon name="download-outline" slot="start"></ion-icon> Descargar Excel
+      </ion-button>
+      <ion-button expand="block" fill="outline" (click)="descargarNotas('pdf')">
+        <ion-icon name="document-text-outline" slot="start"></ion-icon> Descargar PDF
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

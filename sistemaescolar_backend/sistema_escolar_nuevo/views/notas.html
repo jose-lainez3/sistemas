@@ -1,0 +1,51 @@
+<%- incluir('partials/encabezado', { titulo: 'Registro de notas', seccion: 'notas' }) %>
+
+<form method="get" action="/notas" class="formulario" style="display:flex; gap:16px; align-items:end; flex-wrap:wrap;">
+  <div class="campo" style="min-width:220px;">
+    <label>Curso</label>
+    <select name="curso_id">
+      <% cursos.forEach(function(c) { %>
+        <option value="<%= c.id %>" <%= String(c.id) === String(cursoSeleccionado) ? 'selected' : '' %>>
+          <%= c.nombre %> (<%= c.anio_lectivo %>)
+        </option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="campo">
+    <label>Materia</label>
+    <input type="text" name="materia" value="<%= materia %>">
+  </div>
+  <div class="campo">
+    <label>Periodo</label>
+    <select name="periodo">
+      <% ['1er Periodo','2do Periodo','3er Periodo','4to Periodo'].forEach(function(p) { %>
+        <option value="<%= p %>" <%= p === periodo ? 'selected' : '' %>><%= p %></option>
+      <% }) %>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-secundario">Ver</button>
+</form>
+
+<% if (cursoSeleccionado && alumnos.length > 0) { %>
+<form method="post" action="/notas" class="formulario">
+  <input type="hidden" name="accion" value="guardar_notas">
+  <input type="hidden" name="curso_id" value="<%= cursoSeleccionado %>">
+  <input type="hidden" name="materia" value="<%= materia %>">
+  <input type="hidden" name="periodo" value="<%= periodo %>">
+  <table>
+    <tr><th>Alumno</th><th>Nota (0-100)</th></tr>
+    <% alumnos.forEach(function(al) { %>
+    <tr>
+      <td><%= al.apellidos %> <%= al.nombres %></td>
+      <td><input type="number" step="0.01" min="0" max="100" name="nota[<%= al.matricula_id %>]" value="<%= al.nota !== null && al.nota !== undefined ? al.nota : '' %>"></td>
+    </tr>
+    <% }) %>
+  </table>
+  <br>
+  <button type="submit" class="btn">Guardar notas</button>
+</form>
+<% } else if (cursoSeleccionado) { %>
+  <p style="color:var(--texto-tenue)">No hay alumnos con matricula activa en este curso.</p>
+<% } %>
+
+<%- incluir('partials/pie') %>

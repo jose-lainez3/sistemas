@@ -1,0 +1,77 @@
+<%- incluir('partials/encabezado', { titulo: 'Cursos', seccion: 'cursos' }) %>
+
+<form method="post" action="/cursos" class="formulario">
+  <input type="hidden" name="accion" value="crear_curso">
+  <h3>Nuevo curso</h3>
+  <div class="campo">
+    <label>Nombre del curso</label>
+    <input type="text" name="nombre" required placeholder="Ej: 3ro Basico B">
+  </div>
+  <div class="campo">
+    <label>Ano lectivo</label>
+    <input type="text" name="anio_lectivo" required placeholder="2026" value="<%= anioActual %>">
+  </div>
+  <button type="submit" class="btn">Crear curso</button>
+</form>
+
+<h3>Cursos existentes</h3>
+<table>
+  <tr><th>Curso</th><th>Ano lectivo</th><th>Acciones</th></tr>
+  <% cursos.forEach(function(c) { %>
+  <tr>
+    <td><%= c.nombre %></td>
+    <td><%= c.anio_lectivo %></td>
+    <td>
+      <form method="post" action="/cursos" style="display:inline" onsubmit="return confirm('¿Eliminar este curso? Tambien se eliminaran sus matriculas.');">
+        <input type="hidden" name="accion" value="eliminar_curso">
+        <input type="hidden" name="curso_id" value="<%= c.id %>">
+        <button type="submit" class="btn btn-peligro btn-pequeno">Eliminar</button>
+      </form>
+    </td>
+  </tr>
+  <% }) %>
+</table>
+
+<h3 style="margin-top:32px">Asignar profesor a un curso</h3>
+<form method="post" action="/cursos" class="formulario">
+  <input type="hidden" name="accion" value="asignar_profesor">
+  <div class="campo">
+    <label>Profesor</label>
+    <select name="profesor_id" required>
+      <option value="">-- selecciona --</option>
+      <% profesores.forEach(function(p) { %>
+        <option value="<%= p.id %>"><%= p.nombre %></option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="campo">
+    <label>Curso</label>
+    <select name="curso_id" required>
+      <option value="">-- selecciona --</option>
+      <% cursos.forEach(function(c) { %>
+        <option value="<%= c.id %>"><%= c.nombre %> (<%= c.anio_lectivo %>)</option>
+      <% }) %>
+    </select>
+  </div>
+  <button type="submit" class="btn">Asignar</button>
+</form>
+
+<table>
+  <tr><th>Profesor</th><th>Curso</th><th>Ano</th><th>Acciones</th></tr>
+  <% asignaciones.forEach(function(a) { %>
+  <tr>
+    <td><%= a.profesor %></td>
+    <td><%= a.curso %></td>
+    <td><%= a.anio_lectivo %></td>
+    <td>
+      <form method="post" action="/cursos" style="display:inline" onsubmit="return confirm('¿Quitar esta asignacion?');">
+        <input type="hidden" name="accion" value="quitar_profesor">
+        <input type="hidden" name="asignacion_id" value="<%= a.id %>">
+        <button type="submit" class="btn btn-peligro btn-pequeno">Quitar</button>
+      </form>
+    </td>
+  </tr>
+  <% }) %>
+</table>
+
+<%- incluir('partials/pie') %>

@@ -1,0 +1,26 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Toma todo el alto de la pantalla */
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px; /* En ordenadores no pasará de 400px, en móviles tomará el 100% */
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.login-logo {
+  display: block;
+  width: 84px;
+  height: 84px;
+  margin: 0 auto 12px auto;
+  object-fit: contain;
+}
+
+.titulo-institucion {
+  margin-top: -6px;
+  font-size: 18px;
+}

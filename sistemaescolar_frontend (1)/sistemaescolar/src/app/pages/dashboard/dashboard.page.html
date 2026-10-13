@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Dashboard Escolar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ nombreInstitucion }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Bienvenido al sistema de gestión escolar. Desde aquí puedes administrar alumnos,
+      cursos, asistencia, notas e inventario.
+    </ion-card-content>
+  </ion-card>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button expand="block" color="tertiary" (click)="ir('/alumnos')">
+          <ion-icon name="people-outline" slot="start"></ion-icon>
+          Alumnos
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button expand="block" color="tertiary" (click)="ir('/cursos')">
+          <ion-icon name="school-outline" slot="start"></ion-icon>
+          Cursos
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button expand="block" color="tertiary" (click)="ir('/asistencia')">
+          <ion-icon name="checkmark-done-outline" slot="start"></ion-icon>
+          Asistencia
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button expand="block" color="tertiary" (click)="ir('/inventario')">
+          <ion-icon name="cube-outline" slot="start"></ion-icon>
+          Inventario
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-button expand="block" color="danger" class="ion-margin-top" (click)="cerrarSesion()">
+    Cerrar Sesión
+  </ion-button>
+</ion-content>

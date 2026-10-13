@@ -1,0 +1,48 @@
+<%- incluir('partials/encabezado', { titulo: 'Control de asistencia', seccion: 'asistencia' }) %>
+
+<form method="get" action="/asistencia" class="formulario" style="display:flex; gap:16px; align-items:end; flex-wrap:wrap;">
+  <div class="campo" style="flex:1; min-width:220px;">
+    <label>Curso</label>
+    <select name="curso_id" onchange="this.form.submit()">
+      <% if (cursos.length === 0) { %>
+        <option value="">No tienes cursos asignados</option>
+      <% } %>
+      <% cursos.forEach(function(c) { %>
+        <option value="<%= c.id %>" <%= String(c.id) === String(cursoSeleccionado) ? 'selected' : '' %>>
+          <%= c.nombre %> (<%= c.anio_lectivo %>)
+        </option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="campo">
+    <label>Fecha</label>
+    <input type="date" name="fecha" value="<%= fecha %>" onchange="this.form.submit()">
+  </div>
+</form>
+
+<% if (cursoSeleccionado && alumnos.length > 0) { %>
+<form method="post" action="/asistencia" class="formulario">
+  <input type="hidden" name="accion" value="guardar_asistencia">
+  <input type="hidden" name="curso_id" value="<%= cursoSeleccionado %>">
+  <input type="hidden" name="fecha" value="<%= fecha %>">
+  <table>
+    <tr><th>Alumno</th><th>Presente</th><th>Ausente</th><th>Tarde</th><th>Justificado</th></tr>
+    <% alumnos.forEach(function(al) { var actual = al.estado_actual || 'presente'; %>
+    <tr>
+      <td><%= al.apellidos %> <%= al.nombres %></td>
+      <% ['presente','ausente','tarde','justificado'].forEach(function(opcion) { %>
+        <td style="text-align:center">
+          <input type="radio" name="estado[<%= al.matricula_id %>]" value="<%= opcion %>" <%= actual === opcion ? 'checked' : '' %>>
+        </td>
+      <% }) %>
+    </tr>
+    <% }) %>
+  </table>
+  <br>
+  <button type="submit" class="btn">Guardar asistencia</button>
+</form>
+<% } else if (cursoSeleccionado) { %>
+  <p style="color:var(--texto-tenue)">No hay alumnos con matricula activa en este curso.</p>
+<% } %>
+
+<%- incluir('partials/pie') %>

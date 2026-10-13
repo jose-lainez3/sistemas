@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
+    <ion-title>Asistencia</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+    <ion-label position="stacked">Curso</ion-label>
+    <ion-select [(ngModel)]="cursoSeleccionado" (ionChange)="onCambioSeleccion()" placeholder="Selecciona un curso">
+      <ion-select-option *ngFor="let curso of cursos" [value]="curso.id">{{ curso.nombre }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Fecha</ion-label>
+    <ion-input type="date" [(ngModel)]="fecha" (ionChange)="onCambioSeleccion()"></ion-input>
+  </ion-item>
+
+  <div *ngIf="cargando" class="ion-text-center ion-padding" style="margin-top: 30px;">
+    <ion-label color="medium">Cargando lista de alumnos...</ion-label>
+  </div>
+
+  <div *ngIf="errorCarga && !cargando" class="ion-text-center ion-padding" style="margin-top: 30px;">
+    <ion-icon name="alert-circle-outline" style="font-size: 60px; color: #e74c3c;"></ion-icon>
+    <br><ion-label color="danger">{{ errorCarga }}</ion-label><br><br>
+    <ion-button (click)="cargarAsistencia()">Reintentar</ion-button>
+  </div>
+
+  <div *ngIf="!cargando && cursoSeleccionado && registros.length === 0 && !errorCarga" class="ion-text-center ion-padding" style="margin-top: 30px;">
+    <ion-label color="medium">Este curso no tiene alumnos matriculados.</ion-label>
+  </div>
+
+  <ng-container *ngIf="!cargando && registros.length > 0">
+
+    <div class="ion-padding-vertical" style="display:flex; gap:8px;">
+      <ion-button size="small" color="success" (click)="marcarTodos('presente')">Marcar todos presentes</ion-button>
+      <ion-button size="small" color="danger" fill="outline" (click)="marcarTodos('ausente')">Marcar todos ausentes</ion-button>
+    </div>
+
+    <ion-list>
+      <ion-item *ngFor="let registro of registros">
+        <ion-label>
+          <h2>{{ registro.nombres }} {{ registro.apellidos }}</h2>
+        </ion-label>
+        <ion-select [(ngModel)]="registro.estado" interface="popover" slot="end">
+          <ion-select-option value="presente">Presente</ion-select-option>
+          <ion-select-option value="ausente">Ausente</ion-select-option>
+          <ion-select-option value="tarde">Tardanza</ion-select-option>
+          <ion-select-option value="justificado">Justificado</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+    <div *ngIf="mensajeExito" class="ion-text-center ion-padding">
+      <ion-label color="success">{{ mensajeExito }}</ion-label>
+    </div>
+
+    <ion-button expand="block" color="success" class="ion-margin-top" [disabled]="guardando" (click)="guardarAsistencia()">
+      <ion-icon name="save-outline" slot="start"></ion-icon>
+      {{ guardando ? 'Guardando...' : 'Guardar Asistencia' }}
+    </ion-button>
+
+  </ng-container>
+
+</ion-content>

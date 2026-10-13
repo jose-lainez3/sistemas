@@ -1,0 +1,68 @@
+<%- incluir('partials/encabezado', { titulo: 'Gestion de usuarios', seccion: 'usuarios' }) %>
+
+<form method="post" action="/usuarios" class="formulario">
+  <input type="hidden" name="accion" value="crear">
+  <h3>Nuevo usuario</h3>
+  <div class="campo">
+    <label>Nombre completo</label>
+    <input type="text" name="nombre" required>
+  </div>
+  <div class="campo">
+    <label>Email</label>
+    <input type="email" name="email" required>
+  </div>
+  <div class="campo">
+    <label>Contrasena temporal</label>
+    <input type="password" name="password" required minlength="6">
+  </div>
+  <div class="campo">
+    <label>Rol</label>
+    <select name="rol" required>
+      <option value="profesor">Profesor</option>
+      <option value="secretaria">Secretaria</option>
+      <option value="admin">Administrador</option>
+    </select>
+  </div>
+  <button type="submit" class="btn">Crear usuario</button>
+</form>
+
+<h3>Usuarios del sistema</h3>
+<table>
+  <tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Estado</th><th>Acciones</th></tr>
+  <% usuarios.forEach(function(u) { %>
+  <tr>
+    <td><%= u.nombre %></td>
+    <td><%= u.email %></td>
+    <td>
+      <form method="post" action="/usuarios" style="display:flex; gap:6px;">
+        <input type="hidden" name="accion" value="cambiar_rol">
+        <input type="hidden" name="usuario_id" value="<%= u.id %>">
+        <select name="rol" onchange="this.form.submit()">
+          <option value="profesor" <%= u.rol === 'profesor' ? 'selected' : '' %>>Profesor</option>
+          <option value="secretaria" <%= u.rol === 'secretaria' ? 'selected' : '' %>>Secretaria</option>
+          <option value="admin" <%= u.rol === 'admin' ? 'selected' : '' %>>Administrador</option>
+        </select>
+      </form>
+    </td>
+    <td><span class="badge <%= u.activo ? 'badge-activo' : 'badge-retirado' %>"><%= u.activo ? 'Activo' : 'Inactivo' %></span></td>
+    <td>
+      <form method="post" action="/usuarios" style="display:inline">
+        <input type="hidden" name="accion" value="cambiar_estado">
+        <input type="hidden" name="usuario_id" value="<%= u.id %>">
+        <button type="submit" class="btn btn-secundario btn-pequeno"><%= u.activo ? 'Desactivar' : 'Activar' %></button>
+      </form>
+      <details style="display:inline-block">
+        <summary style="display:inline;cursor:pointer" class="btn btn-pequeno">Cambiar clave</summary>
+        <form method="post" action="/usuarios" style="margin-top:8px">
+          <input type="hidden" name="accion" value="cambiar_password">
+          <input type="hidden" name="usuario_id" value="<%= u.id %>">
+          <input type="password" name="password_nueva" placeholder="Nueva contrasena" minlength="6" required>
+          <button type="submit" class="btn btn-pequeno">Guardar</button>
+        </form>
+      </details>
+    </td>
+  </tr>
+  <% }) %>
+</table>
+
+<%- incluir('partials/pie') %>

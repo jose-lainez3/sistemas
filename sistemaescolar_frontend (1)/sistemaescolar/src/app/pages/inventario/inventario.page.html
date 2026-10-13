@@ -1,0 +1,106 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
+    <ion-title>Inventario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ng-container *ngIf="!mostrarFormulario">
+
+    <div *ngIf="cargando" class="ion-text-center ion-padding" style="margin-top: 50px;">
+      <ion-label color="medium">Cargando inventario...</ion-label>
+    </div>
+
+    <div *ngIf="errorCarga && !cargando" class="ion-text-center ion-padding" style="margin-top: 50px;">
+      <ion-icon name="alert-circle-outline" style="font-size: 60px; color: #e74c3c;"></ion-icon>
+      <br><ion-label color="danger">{{ errorCarga }}</ion-label><br><br>
+      <ion-button (click)="cargarDatos()">Reintentar</ion-button>
+    </div>
+
+    <div *ngIf="!cargando && !errorCarga && items.length === 0" class="ion-text-center ion-padding" style="margin-top: 50px;">
+      <ion-icon name="cube-outline" style="font-size: 80px; color: #ccc;"></ion-icon>
+      <br>
+      <ion-label color="medium">No hay artículos registrados todavía.</ion-label>
+      <br><br>
+      <ion-label *ngIf="categorias.length === 0" color="warning">
+        Crea primero una categoría antes de agregar artículos.
+      </ion-label>
+    </div>
+
+    <ion-list *ngIf="!cargando && items.length > 0">
+      <ion-item *ngFor="let item of items">
+        <ion-label>
+          <h2><strong>{{ item.nombre }}</strong> &nbsp;
+            <ion-badge [color]="colorEstado(item.estado)">{{ item.estado }}</ion-badge>
+          </h2>
+          <p>Categoría: {{ item.categoria_nombre || '—' }} | Cantidad: {{ item.cantidad }}</p>
+          <p *ngIf="item.ubicacion">Ubicación: {{ item.ubicacion }}</p>
+        </ion-label>
+        <ion-button fill="clear" color="medium" slot="end" (click)="editarItem(item)">
+          <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" color="danger" slot="end" (click)="eliminarItem(item)">
+          <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button color="success" (click)="abrirFormulario()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+  </ng-container>
+
+  <ng-container *ngIf="mostrarFormulario">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ editandoId ? 'Editar Artículo' : 'Nuevo Artículo' }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Nombre</ion-label>
+          <ion-input [(ngModel)]="itemActual.nombre" placeholder="Ej: Escritorio de profesor"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Categoría</ion-label>
+          <ion-select [(ngModel)]="itemActual.categoria_id" placeholder="Selecciona categoría">
+            <ion-select-option *ngFor="let categoria of categorias" [value]="categoria.id">
+              {{ categoria.nombre }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Cantidad</ion-label>
+          <ion-input type="number" [(ngModel)]="itemActual.cantidad"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Estado</ion-label>
+          <ion-select [(ngModel)]="itemActual.estado">
+            <ion-select-option *ngFor="let estado of estados" [value]="estado">{{ estado }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Ubicación (opcional)</ion-label>
+          <ion-input [(ngModel)]="itemActual.ubicacion" placeholder="Ej: Bodega, Aula 3..."></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Observaciones (opcional)</ion-label>
+          <ion-textarea [(ngModel)]="itemActual.observaciones"></ion-textarea>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+    <div class="ion-padding">
+      <ion-button expand="block" color="success" (click)="guardarItem()">
+        <ion-icon name="save" slot="start"></ion-icon> Guardar
+      </ion-button>
+      <ion-button expand="block" fill="outline" color="medium" (click)="cancelar()">
+        <ion-icon name="close" slot="start"></ion-icon> Cancelar
+      </ion-button>
+    </div>
+  </ng-container>
+
+</ion-content>

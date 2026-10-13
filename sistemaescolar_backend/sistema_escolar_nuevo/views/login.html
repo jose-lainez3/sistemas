@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ingresar - Sistema Escolar Nova</title>
+<link rel="stylesheet" href="/public/css/estilo.css">
+</head>
+<body>
+<div class="login-wrap">
+  <div class="login-box">
+    <h1><span class="punto" style="width:10px;height:10px;border-radius:50%;background:var(--acento);display:inline-block;"></span> Escolar Nova</h1>
+    <div class="login-sub">Panel de gestion academica</div>
+    <% if (error) { %>
+      <div class="alerta alerta-error"><%= error %></div>
+    <% } %>
+    <form method="post" action="/login" class="formulario">
+      <div class="campo">
+        <label>Correo electronico</label>
+        <input type="email" name="email" required autofocus value="<%= emailPrevio %>">
+      </div>
+      <div class="campo">
+        <label>Contrasena</label>
+        <input type="password" name="password" required>
+      </div>
+      <button type="submit" class="btn" style="width:100%">Ingresar</button>
+    </form>
+    <div class="pista-demo">
+      Admin de prueba: <code>admin@escuela.com</code> / <code>Admin123!</code>
+    </div>
+  </div>
+</div>
+</body>
+</html>

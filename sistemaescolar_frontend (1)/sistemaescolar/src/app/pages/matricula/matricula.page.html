@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Nueva Matrícula</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="header-text">
+    <h2>Registro de materias</h2>
+    <p>Selecciona el alumno y el curso al que deseas inscribirlo.</p>
+  </div>
+
+  <!-- Cargando -->
+  <div *ngIf="cargando" class="ion-text-center ion-padding" style="margin-top: 30px;">
+    <ion-label color="medium">Cargando alumnos y cursos...</ion-label>
+  </div>
+
+  <!-- Error de carga -->
+  <div *ngIf="errorCarga && !cargando" class="ion-text-center ion-padding" style="margin-top: 30px;">
+    <ion-icon name="alert-circle-outline" style="font-size: 60px; color: #e74c3c;"></ion-icon>
+    <br>
+    <ion-label color="danger">{{ errorCarga }}</ion-label>
+    <br><br>
+    <ion-button (click)="cargarDatos()">Reintentar</ion-button>
+  </div>
+
+  <!-- Formulario -->
+  <form *ngIf="!cargando && !errorCarga" [formGroup]="matriculaForm" (ngSubmit)="matricular()">
+
+    <ion-list lines="full" class="ion-margin-bottom">
+
+      <ion-item>
+        <ion-icon name="person-outline" slot="start" color="medium"></ion-icon>
+        <ion-select
+          formControlName="alumnoId"
+          label="Selecciona un Alumno"
+          label-placement="floating"
+          cancelText="Cancelar"
+          okText="Aceptar">
+          <ion-select-option *ngFor="let alumno of alumnos" [value]="alumno.id">
+            {{ alumno.nombres }} {{ alumno.apellidos }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name="book-outline" slot="start" color="medium"></ion-icon>
+        <ion-select
+          formControlName="cursoId"
+          label="Selecciona un Curso"
+          label-placement="floating"
+          cancelText="Cancelar"
+          okText="Aceptar">
+          <ion-select-option *ngFor="let curso of cursos" [value]="curso.id">
+            {{ curso.nombre }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+    </ion-list>
+
+    <!-- Mensajes -->
+    <div *ngIf="mensajeExito" class="ion-text-center ion-padding">
+      <ion-label color="success">{{ mensajeExito }}</ion-label>
+    </div>
+    <div *ngIf="mensajeError" class="ion-text-center ion-padding">
+      <ion-label color="danger">{{ mensajeError }}</ion-label>
+    </div>
+
+    <ion-button
+      type="submit"
+      expand="block"
+      color="success"
+      shape="round"
+      [disabled]="matriculaForm.invalid || enviando">
+      <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+      {{ enviando ? 'Guardando...' : 'Confirmar Matrícula' }}
+    </ion-button>
+
+  </form>
+
+</ion-content>

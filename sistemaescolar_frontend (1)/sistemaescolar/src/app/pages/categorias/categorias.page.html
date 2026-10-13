@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
+    <ion-title>Categorías de Inventario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ng-container *ngIf="!mostrarFormulario">
+
+    <div *ngIf="cargando" class="ion-text-center ion-padding" style="margin-top: 50px;">
+      <ion-label color="medium">Cargando categorías...</ion-label>
+    </div>
+
+    <div *ngIf="errorCarga && !cargando" class="ion-text-center ion-padding" style="margin-top: 50px;">
+      <ion-icon name="alert-circle-outline" style="font-size: 60px; color: #e74c3c;"></ion-icon>
+      <br><ion-label color="danger">{{ errorCarga }}</ion-label><br><br>
+      <ion-button (click)="cargarCategorias()">Reintentar</ion-button>
+    </div>
+
+    <div *ngIf="!cargando && !errorCarga && categorias.length === 0" class="ion-text-center ion-padding" style="margin-top: 50px;">
+      <ion-icon name="pricetags-outline" style="font-size: 80px; color: #ccc;"></ion-icon>
+      <br>
+      <ion-label color="medium">No hay categorías registradas todavía.</ion-label>
+    </div>
+
+    <ion-list *ngIf="!cargando && categorias.length > 0">
+      <ion-item *ngFor="let categoria of categorias">
+        <ion-label>
+          <h2><strong>{{ categoria.nombre }}</strong></h2>
+          <p *ngIf="categoria.descripcion">{{ categoria.descripcion }}</p>
+        </ion-label>
+        <ion-button fill="clear" color="danger" slot="end" (click)="eliminarCategoria(categoria)">
+          <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button color="success" (click)="abrirFormulario()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+  </ng-container>
+
+  <ng-container *ngIf="mostrarFormulario">
+    <ion-card>
+      <ion-card-header><ion-card-title>Nueva Categoría</ion-card-title></ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Nombre</ion-label>
+          <ion-input [(ngModel)]="nuevaCategoria.nombre" placeholder="Ej: Mobiliario"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Descripción (opcional)</ion-label>
+          <ion-textarea [(ngModel)]="nuevaCategoria.descripcion" placeholder="Ej: Sillas, mesas, pizarras..."></ion-textarea>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+    <div class="ion-padding">
+      <ion-button expand="block" color="success" (click)="guardarCategoria()">
+        <ion-icon name="save" slot="start"></ion-icon> Guardar
+      </ion-button>
+      <ion-button expand="block" fill="outline" color="medium" (click)="cancelar()">
+        <ion-icon name="close" slot="start"></ion-icon> Cancelar
+      </ion-button>
+    </div>
+  </ng-container>
+
+</ion-content>

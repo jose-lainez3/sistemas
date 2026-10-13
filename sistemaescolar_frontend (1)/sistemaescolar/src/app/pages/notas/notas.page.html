@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
+    <ion-title>Notas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+    <ion-label position="stacked">Curso</ion-label>
+    <ion-select [(ngModel)]="cursoSeleccionado" (ionChange)="onCambioSeleccion()" placeholder="Selecciona un curso">
+      <ion-select-option *ngFor="let curso of cursos" [value]="curso.id">{{ curso.nombre }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Materia</ion-label>
+    <ion-select [(ngModel)]="materiaSeleccionada" (ionChange)="onCambioSeleccion()">
+      <ion-select-option *ngFor="let materia of materias" [value]="materia">{{ materia }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Periodo</ion-label>
+    <ion-select [(ngModel)]="periodoSeleccionado" (ionChange)="onCambioSeleccion()">
+      <ion-select-option *ngFor="let periodo of periodos" [value]="periodo">{{ periodo }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <div *ngIf="cargando" class="ion-text-center ion-padding" style="margin-top: 30px;">
+    <ion-label color="medium">Cargando alumnos...</ion-label>
+  </div>
+
+  <div *ngIf="errorCarga && !cargando" class="ion-text-center ion-padding" style="margin-top: 30px;">
+    <ion-icon name="alert-circle-outline" style="font-size: 60px; color: #e74c3c;"></ion-icon>
+    <br><ion-label color="danger">{{ errorCarga }}</ion-label><br><br>
+    <ion-button (click)="cargarNotas()">Reintentar</ion-button>
+  </div>
+
+  <div *ngIf="!cargando && cursoSeleccionado && notas.length === 0 && !errorCarga" class="ion-text-center ion-padding" style="margin-top: 30px;">
+    <ion-label color="medium">Este curso no tiene alumnos matriculados.</ion-label>
+  </div>
+
+  <ng-container *ngIf="!cargando && notas.length > 0">
+    <ion-list>
+      <ion-item *ngFor="let nota of notas">
+        <ion-label>
+          <h2>{{ nota.nombres }} {{ nota.apellidos }}</h2>
+        </ion-label>
+        <ion-input
+          type="number"
+          min="0" max="10" step="0.1"
+          [(ngModel)]="nota.nota"
+          placeholder="0-10"
+          style="max-width: 80px; text-align:right;"
+          slot="end">
+        </ion-input>
+      </ion-item>
+    </ion-list>
+
+    <div *ngIf="mensajeExito" class="ion-text-center ion-padding">
+      <ion-label color="success">{{ mensajeExito }}</ion-label>
+    </div>
+
+    <ion-button expand="block" color="success" class="ion-margin-top" [disabled]="guardando" (click)="guardarNotas()">
+      <ion-icon name="save-outline" slot="start"></ion-icon>
+      {{ guardando ? 'Guardando...' : 'Guardar Notas' }}
+    </ion-button>
+  </ng-container>
+
+</ion-content>

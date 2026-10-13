@@ -1,0 +1,60 @@
+<%- incluir('partials/encabezado', { titulo: 'Matricula de alumnos', seccion: 'matricula' }) %>
+
+<form method="post" action="/matricula" class="formulario">
+  <input type="hidden" name="accion" value="matricular">
+  <h3>Nueva matricula</h3>
+  <div class="campo">
+    <label>Alumno</label>
+    <select name="alumno_id" required>
+      <option value="">-- selecciona un alumno --</option>
+      <% alumnos.forEach(function(a) { %>
+        <option value="<%= a.id %>"><%= a.apellidos %> <%= a.nombres %></option>
+      <% }) %>
+    </select>
+    <small>¿No esta en la lista? <a href="/alumnos">Registralo primero aqui</a>.</small>
+  </div>
+  <div class="campo">
+    <label>Curso</label>
+    <select name="curso_id" required>
+      <option value="">-- selecciona un curso --</option>
+      <% cursos.forEach(function(c) { %>
+        <option value="<%= c.id %>"><%= c.nombre %> (<%= c.anio_lectivo %>)</option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="campo">
+    <label>Ano lectivo</label>
+    <input type="text" name="anio_lectivo" required value="<%= anioActual %>">
+  </div>
+  <div class="campo">
+    <label>Fecha de matricula</label>
+    <input type="date" name="fecha_matricula" required value="<%= fechaHoy %>">
+  </div>
+  <button type="submit" class="btn">Matricular</button>
+</form>
+
+<h3>Matriculas registradas</h3>
+<table>
+  <tr><th>Alumno</th><th>Curso</th><th>Ano</th><th>Fecha</th><th>Estado</th><th>Acciones</th></tr>
+  <% matriculas.forEach(function(m) { %>
+  <tr>
+    <td><%= m.apellidos %> <%= m.nombres %></td>
+    <td><%= m.curso %></td>
+    <td><%= m.anio_lectivo %></td>
+    <td><%= m.fecha_matricula %></td>
+    <td><span class="badge badge-<%= m.estado %>"><%= m.estado === 'activo' ? 'Activo' : 'Retirado' %></span></td>
+    <td>
+      <form method="post" action="/matricula" style="display:inline">
+        <input type="hidden" name="accion" value="cambiar_estado">
+        <input type="hidden" name="matricula_id" value="<%= m.id %>">
+        <input type="hidden" name="nuevo_estado" value="<%= m.estado === 'activo' ? 'retirado' : 'activo' %>">
+        <button type="submit" class="btn btn-secundario btn-pequeno">
+          <%= m.estado === 'activo' ? 'Marcar retirado' : 'Reactivar' %>
+        </button>
+      </form>
+    </td>
+  </tr>
+  <% }) %>
+</table>
+
+<%- incluir('partials/pie') %>

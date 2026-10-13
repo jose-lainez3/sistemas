@@ -1,0 +1,18 @@
+
+.menu-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+.menu-logo {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+.menu-title {
+  font-size: 15px;
+  line-height: 1.2;
+  white-space: normal;
+  padding-inline: 0;
+}

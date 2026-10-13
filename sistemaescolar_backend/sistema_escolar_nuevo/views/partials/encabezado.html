@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= titulo %> - Sistema Escolar Nova</title>
+<link rel="stylesheet" href="/public/css/estilo.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="marca"><span class="punto"></span> Escolar Nova</div>
+  <nav>
+    <a href="/dashboard" class="<%= seccion === 'dashboard' ? 'activo' : '' %>">Inicio</a>
+    <% if (usuario.rol === 'admin' || usuario.rol === 'secretaria') { %>
+      <a href="/alumnos" class="<%= seccion === 'alumnos' ? 'activo' : '' %>">Alumnos</a>
+      <a href="/matricula" class="<%= seccion === 'matricula' ? 'activo' : '' %>">Matricula</a>
+    <% } %>
+    <% if (usuario.rol === 'admin' || usuario.rol === 'profesor') { %>
+      <a href="/asistencia" class="<%= seccion === 'asistencia' ? 'activo' : '' %>">Asistencia</a>
+      <a href="/notas" class="<%= seccion === 'notas' ? 'activo' : '' %>">Notas</a>
+    <% } %>
+    <a href="/reportes" class="<%= seccion === 'reportes' ? 'activo' : '' %>">Reportes</a>
+    <% if (usuario.rol === 'admin') { %>
+      <a href="/usuarios" class="<%= seccion === 'usuarios' ? 'activo' : '' %>">Usuarios</a>
+      <a href="/cursos" class="<%= seccion === 'cursos' ? 'activo' : '' %>">Cursos</a>
+    <% } %>
+  </nav>
+  <div class="usuario-info">
+    <span><%= usuario.nombre %></span>
+    <span class="rol-pill"><%= usuario.rol %></span>
+    <a href="/logout">Salir</a>
+  </div>
+</header>
+<main class="contenido">
+<h1><%= titulo %></h1>
+<% if (mensaje) { %>
+  <div class="alerta alerta-<%= mensaje.tipo %>"><%= mensaje.texto %></div>
+<% } %>
